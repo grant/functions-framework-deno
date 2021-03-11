@@ -73,32 +73,16 @@ There's no installation step for this library. It's Deno.
 You can also run this server in a container:
 
 ```sh
-docker run -it --init \
--p 8080:8080 \
--v $PWD:/app hayd/alpine-deno:1.4.4 \
-run --allow-net --allow-read --allow-env /app/main.ts
+docker build -t app . && docker run -it --init -p 8080:8080 app
 ```
 
 ## Deploy to Cloud Run
 
-> Currently doesn't work due to a gvizor issue.
-
 ```sh
-PROJECT=$(gcloud config get-value core/project 2> /dev/null)
-gcloud builds submit --tag gcr.io/$PROJECT/deno-ff
-gcloud run deploy deno-ff \
---image gcr.io/$PROJECT/deno-ff \
+gcloud beta run deploy deno-ff \
+--source . \
 --allow-unauthenticated
 ```
-
-Current error:
-
-```
-Gvizor: Container Sandbox: Unsupported syscall setsockopt
-```
-
-- https://cloud.google.com/run/docs/troubleshooting#sandbox
-- https://github.com/google/gvisor/issues/1739
 
 ## Publish
 

@@ -1,8 +1,16 @@
-FROM hayd/alpine-deno:1.4.4
+FROM hayd/alpine-deno:1.8.0
+
+# The port that your application listens to.
+EXPOSE 8080
+
 WORKDIR /app
 
-# These steps will be re-run upon each file change in your working directory:
-COPY . ./
+# Prefer not to run as root.
+USER deno
 
-# Added to ENTRYPOINT of base image.
-CMD ["run", "--allow-env", "--allow-net", "function.ts"]
+# These steps will be re-run upon each file change in your working directory:
+ADD . .
+# Compile the main app so that it doesn't need to be compiled each startup/entry.
+RUN deno cache main.ts
+
+CMD ["run", "--allow-env", "--allow-read", "--allow-net", "main.ts"]

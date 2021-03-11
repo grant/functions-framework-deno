@@ -1,7 +1,7 @@
 /**
  * webserver.ts
  */
-import { serve, Server } from "https://deno.land/std@0.74.0/http/server.ts";
+import { serve, Server } from "https://deno.land/std@0.89.0/http/server.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import * as functions from './function.ts';
 
